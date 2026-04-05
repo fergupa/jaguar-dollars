@@ -1,0 +1,19 @@
+# Worktrees
+.worktrees/
+worktrees/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+
+# Environment
+.env
+.env.local
