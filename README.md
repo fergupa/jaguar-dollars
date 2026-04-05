@@ -1,77 +1,69 @@
-# Vibe Code System
+# Gator Dollars
 
-A template project for starting vibe coding sessions with [Claude Code](https://claude.ai/claude-code). Comes pre-loaded with 21 skills across 4 categories.
-
-## What's Included
-
-### Development Workflow — [obra/superpowers](https://github.com/obra/superpowers) (14 skills)
-
-| Skill | Purpose |
-|-------|---------|
-| `using-superpowers` | Orchestrates all other skills — determines which to invoke |
-| `brainstorming` | Structured ideation before any creative work |
-| `writing-plans` | Design documents from specs/requirements |
-| `executing-plans` | Execute implementation plans in a separate session |
-| `subagent-driven-development` | Parallel execution of independent implementation tasks |
-| `test-driven-development` | Write tests before implementation |
-| `systematic-debugging` | Root-cause analysis for bugs and failures |
-| `dispatching-parallel-agents` | Run 2+ independent tasks concurrently |
-| `using-git-worktrees` | Isolated workspaces for feature development |
-| `finishing-a-development-branch` | Integration workflow when implementation is complete |
-| `requesting-code-review` | Structured self-review before merging |
-| `receiving-code-review` | Process and respond to review feedback |
-| `verification-before-completion` | Final checks before declaring work done |
-| `writing-skills` | Create or edit Claude Code skills |
-
-### React & Next.js — [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) (1 skill, 57 rules)
-
-| Skill | Purpose |
-|-------|---------|
-| `react-best-practices` | Performance rules across 8 categories: async/waterfalls, bundle size, server, client data fetching, re-renders, rendering, JS performance, advanced patterns |
-
-### Security — [wshobson/agents](https://github.com/wshobson/agents) (5 skills)
-
-| Skill | Purpose |
-|-------|---------|
-| `stride-analysis-patterns` | STRIDE threat modeling |
-| `attack-tree-construction` | Attack scenario mapping |
-| `security-requirement-extraction` | Threats → actionable requirements |
-| `threat-mitigation-mapping` | Defense-in-depth prioritization |
-| `sast-configuration` | Semgrep, SonarQube, CodeQL setup |
-
-### Browser Automation — [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) (1 skill)
-
-| Skill | Purpose |
-|-------|---------|
-| `agent-browser` | Navigate pages, fill forms, click buttons, take screenshots, extract data |
+A school reward system where teachers award "Gator Dollars" to students for good behavior, and students redeem them for prizes.
 
 ## Quick Start
 
-### Create a new project from this template
-
-**CLI:**
 ```bash
-gh repo create my-new-app --template fergupa/vibe-code-system --clone --public
-cd my-new-app
+cd jaguar-dollars
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
-**GitHub UI:** Click **"Use this template"** → **"Create a new repository"**
+The app auto-seeds demo data on first run. Open `http://localhost:8501` in your browser.
 
-### Start coding
+## Demo Credentials
 
-Open the new project in VS Code with [Claude Code](https://claude.ai/claude-code) and describe what you want to build. The `brainstorming` skill will automatically kick in before any implementation begins.
+### Teachers
+| Username | Password | Name | Classroom |
+|----------|----------|------|-----------|
+| mrivera | gator123 | Mrs. Rivera | Room 204 - Science |
+| mthompson | gator123 | Mr. Thompson | Room 112 - English |
+| mchen | gator123 | Ms. Chen | Room 301 - Math |
 
-## Project Structure
+### Students
+| Username | Password | Name | Classroom |
+|----------|----------|------|-----------|
+| jsmith | student | Jordan Smith | Science |
+| agarcia | student | Alex Garcia | Science |
+| mwilson | student | Maya Wilson | Science |
+| dlee | student | David Lee | Science |
+| sbrooks | student | Sofia Brooks | Science |
+| tjohnson | student | Tyler Johnson | English |
+| kpatel | student | Kira Patel | English |
+| rmartin | student | Ryan Martin | English |
+| enguyen | student | Emma Nguyen | English |
+| jwilliams | student | Jake Williams | English |
+| lrodriguez | student | Lily Rodriguez | Math |
+| okim | student | Owen Kim | Math |
+| cjones | student | Chloe Jones | Math |
+| abrown | student | Aiden Brown | Math |
+| zthomas | student | Zoe Thomas | Math |
 
-```
-.claude/
-  skills/           ← All 21 skills live here
-  settings.local.json
-docs/
-  plans/            ← Design documents go here
-CLAUDE.md           ← Project instructions for Claude Code
-```
+## Features
 
-## License
+### Teachers
+- **Dashboard** - Overview stats and quick award form
+- **Give Dollars** - Award to individual or multiple students
+- **Manage Prizes** - Create, edit, activate/deactivate prizes
+- **Nominations** - Review and approve/deny student nominations
+- **Class Pools** - Manage classroom pool balances and redeem class prizes
 
-The skills in this template are sourced from their respective open-source repositories. See each skill's source repo for license details.
+### Students
+- **My Gator Dollars** - Balance display with goal tracker
+- **Prize Store** - Browse and redeem prizes
+- **Nominate** - Nominate classmates for Gator Dollars
+- **Class Pool** - Contribute to classroom pool for class prizes
+- **History** - View all transaction history
+
+## How It Works
+
+1. Teachers have a bank of 500 Gator Dollars to distribute
+2. Teachers award dollars to students for good behavior, homework, participation, etc.
+3. Students accumulate dollars and can redeem them for prizes
+4. Students can nominate classmates - teacher reviews and approves
+5. Students can pool dollars by classroom for bigger class prizes
+
+## Reset Data
+
+Delete `gator_dollars.db` and restart the app to re-seed fresh demo data.

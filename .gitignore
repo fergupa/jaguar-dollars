@@ -1,19 +1,4 @@
-# Worktrees
-.worktrees/
-worktrees/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Editor files
-*.swp
-*.swo
-*~
-
-# Node
-node_modules/
-
-# Environment
+__pycache__/
+*.pyc
+*.db
 .env
-.env.local
