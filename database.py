@@ -1,9 +1,9 @@
-"""Database setup and connection helpers for Gator Dollars."""
+"""Database setup and connection helpers for Jaguar Dollars."""
 
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent / "gator_dollars.db"
+DB_PATH = Path(__file__).parent / "jaguar_dollars.db"
 
 
 def get_connection() -> sqlite3.Connection:
