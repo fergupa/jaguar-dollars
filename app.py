@@ -120,6 +120,7 @@ else:
         pages = [
             st.Page("pages/teacher_dashboard.py", title="Dashboard", icon="📊"),
             st.Page("pages/give_dollars.py", title="Give Dollars", icon="💰"),
+            st.Page("pages/manage_students.py", title="Manage Students", icon="👨‍🎓"),
             st.Page("pages/manage_prizes.py", title="Manage Prizes", icon="🎁"),
             st.Page("pages/approve_nominations.py", title="Nominations", icon="⭐"),
             st.Page("pages/manage_pool.py", title="Class Pools", icon="🏊"),
