@@ -31,7 +31,9 @@ def init_db():
             display_name  TEXT NOT NULL,
             role          TEXT NOT NULL CHECK(role IN ('teacher','student')),
             classroom_id  INTEGER REFERENCES classrooms(id),
-            created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            grade         TEXT,
+            active        INTEGER DEFAULT 1
         );
 
         CREATE TABLE IF NOT EXISTS teacher_banks (
