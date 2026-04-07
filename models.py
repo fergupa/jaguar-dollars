@@ -5,6 +5,7 @@ All mutating functions use transactions to keep balances consistent.
 
 from datetime import datetime
 from database import get_connection
+from auth import hash_password
 
 
 # ── Users ──────────────────────────────────────────────────────────────
@@ -436,5 +437,161 @@ def get_pool_contributions(classroom_id: int) -> list[dict]:
         "GROUP BY t.from_user_id ORDER BY total_contributed DESC",
         (classroom_id,),
     ).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+# ── Student Management ─────────────────────────────────────────────────
+
+def generate_username(display_name: str) -> str:
+    """Generate username from display name (firstname.lastname), handling duplicates."""
+    conn = get_connection()
+    parts = display_name.lower().strip().split()
+    if len(parts) >= 2:
+        base_username = f"{parts[0]}.{parts[-1]}"
+    else:
+        base_username = parts[0] if parts else "student"
+    
+    # Check for duplicates
+    username = base_username
+    suffix = 2
+    while True:
+        exists = conn.execute(
+            "SELECT 1 FROM users WHERE username = ?", (username,)
+        ).fetchone()
+        if not exists:
+            break
+        username = f"{base_username}{suffix}"
+        suffix += 1
+    
+    conn.close()
+    return username
+
+
+def create_student(display_name: str, grade: str, classroom_id: int) -> tuple[bool, str, int | None]:
+    """Create a new student with auto-generated username and default password."""
+    conn = get_connection()
+    try:
+        username = generate_username(display_name)
+        password_hash = hash_password("password")
+        
+        cursor = conn.execute(
+            "INSERT INTO users (username, password_hash, display_name, role, classroom_id, grade, active) "
+            "VALUES (?, ?, ?, 'student', ?, ?, 1)",
+            (username, password_hash, display_name, classroom_id, grade),
+        )
+        student_id = cursor.lastrowid
+        conn.execute(
+            "INSERT INTO student_balances (student_id, balance) VALUES (?, 0)",
+            (student_id,),
+        )
+        conn.commit()
+        return True, username, student_id
+    except Exception as e:
+        conn.rollback()
+        return False, str(e), None
+    finally:
+        conn.close()
+
+
+def update_student(student_id: int, display_name: str, grade: str, username: str) -> tuple[bool, str]:
+    """Update student details."""
+    conn = get_connection()
+    try:
+        # Check username uniqueness (excluding current student)
+        exists = conn.execute(
+            "SELECT 1 FROM users WHERE username = ? AND id != ?",
+            (username, student_id),
+        ).fetchone()
+        if exists:
+            return False, "Username already taken"
+        
+        conn.execute(
+            "UPDATE users SET display_name = ?, grade = ?, username = ? WHERE id = ?",
+            (display_name, grade, username, student_id),
+        )
+        conn.commit()
+        return True, "Student updated successfully"
+    except Exception as e:
+        conn.rollback()
+        return False, str(e)
+    finally:
+        conn.close()
+
+
+def reset_student_password(student_id: int) -> bool:
+    """Reset student password to default 'password'."""
+    conn = get_connection()
+    try:
+        password_hash = hash_password("password")
+        conn.execute(
+            "UPDATE users SET password_hash = ? WHERE id = ?",
+            (password_hash, student_id),
+        )
+        conn.commit()
+        return True
+    except Exception:
+        conn.rollback()
+        return False
+    finally:
+        conn.close()
+
+
+def deactivate_student(student_id: int) -> bool:
+    """Deactivate a student (soft delete)."""
+    conn = get_connection()
+    try:
+        conn.execute("UPDATE users SET active = 0 WHERE id = ?", (student_id,))
+        conn.commit()
+        return True
+    except Exception:
+        conn.rollback()
+        return False
+    finally:
+        conn.close()
+
+
+def delete_student(student_id: int) -> tuple[bool, str]:
+    """Hard delete a student. Will fail if student has transaction history."""
+    conn = get_connection()
+    try:
+        # Check for transactions
+        has_txns = conn.execute(
+            "SELECT 1 FROM transactions WHERE from_user_id = ? OR to_user_id = ?",
+            (student_id, student_id),
+        ).fetchone()
+        if has_txns:
+            return False, "Cannot delete student with transaction history. Use deactivate instead."
+        
+        conn.execute("DELETE FROM student_balances WHERE student_id = ?", (student_id,))
+        conn.execute("DELETE FROM nominations WHERE nominator_id = ? OR nominee_id = ?", (student_id, student_id))
+        conn.execute("DELETE FROM users WHERE id = ?", (student_id,))
+        conn.commit()
+        return True, "Student deleted"
+    except Exception as e:
+        conn.rollback()
+        return False, str(e)
+    finally:
+        conn.close()
+
+
+def get_students_with_details(classroom_id: int | None = None) -> list[dict]:
+    """Get students with grade, balance, and classroom info."""
+    conn = get_connection()
+    query = """
+        SELECT u.*, sb.balance, c.name as classroom_name,
+               (SELECT display_name FROM users WHERE id = c.teacher_id) as teacher_name
+        FROM users u
+        JOIN student_balances sb ON u.id = sb.student_id
+        JOIN classrooms c ON u.classroom_id = c.id
+        WHERE u.role = 'student'
+    """
+    params = []
+    if classroom_id:
+        query += " AND u.classroom_id = ?"
+        params.append(classroom_id)
+    query += " ORDER BY u.display_name"
+    
+    rows = conn.execute(query, params).fetchall()
     conn.close()
     return [dict(r) for r in rows]
