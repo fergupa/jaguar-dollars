@@ -1,4 +1,4 @@
-"""Data access functions for Gator Dollars.
+"""Data access functions for Jaguar Dollars.
 
 All mutating functions use transactions to keep balances consistent.
 """
@@ -205,7 +205,7 @@ def redeem_prize(student_id: int, prize_id: int) -> tuple[bool, str]:
             "SELECT balance FROM student_balances WHERE student_id = ?", (student_id,)
         ).fetchone()
         if not balance or balance["balance"] < prize["cost"]:
-            return False, "Not enough Gator Dollars!"
+            return False, "Not enough Jaguar Dollars!"
 
         if prize["quantity"] != -1 and prize["quantity"] <= 0:
             return False, "Prize is out of stock."
@@ -335,7 +335,7 @@ def contribute_to_pool(student_id: int, classroom_id: int, amount: int) -> tuple
             "SELECT balance FROM student_balances WHERE student_id = ?", (student_id,)
         ).fetchone()
         if not balance or balance["balance"] < amount:
-            return False, "Not enough Gator Dollars!"
+            return False, "Not enough Jaguar Dollars!"
 
         conn.execute(
             "UPDATE student_balances SET balance = balance - ? WHERE student_id = ?",
@@ -351,7 +351,7 @@ def contribute_to_pool(student_id: int, classroom_id: int, amount: int) -> tuple
             (student_id, amount, classroom_id),
         )
         conn.commit()
-        return True, f"You contributed {amount} Gator Dollars to the class pool!"
+        return True, f"You contributed {amount} Jaguar Dollars to the class pool!"
     except Exception as e:
         conn.rollback()
         return False, str(e)
