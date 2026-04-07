@@ -1,4 +1,4 @@
-"""Gator Dollars - School Reward System.
+"""Jaguar Dollars - School Reward System.
 
 A Streamlit app for managing a school reward currency system.
 """
@@ -12,8 +12,8 @@ import models
 
 # ── Page Config ────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Gator Dollars",
-    page_icon="🐊",
+    page_title="Jaguar Dollars",
+    page_icon="🐆",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -37,7 +37,7 @@ st.markdown("""
         text-align: center;
         padding: 20px;
     }
-    .gator-header {
+    .jaguar-header {
         color: #2e7d32;
         text-align: center;
     }
@@ -54,7 +54,7 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 if not st.session_state.authenticated:
-    st.markdown("<h1 class='gator-header'>🐊 Gator Dollars</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='jaguar-header'>🐆 Jaguar Dollars</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 1.2rem;'>Your school reward system</p>",
                 unsafe_allow_html=True)
 
@@ -82,9 +82,9 @@ if not st.session_state.authenticated:
         with st.expander("Demo Credentials"):
             st.markdown("""
             **Teachers:**
-            - `mrivera` / `gator123` (Mrs. Rivera - Science)
-            - `mthompson` / `gator123` (Mr. Thompson - English)
-            - `mchen` / `gator123` (Ms. Chen - Math)
+            - `mrivera` / `jaguar123` (Mrs. Rivera - Science)
+            - `mthompson` / `jaguar123` (Mr. Thompson - English)
+            - `mchen` / `jaguar123` (Ms. Chen - Math)
 
             **Students:**
             - `jsmith` / `student` (Jordan Smith)
@@ -98,7 +98,7 @@ else:
 
     # ── Sidebar ────────────────────────────────────────────────────────
     with st.sidebar:
-        st.markdown(f"### 🐊 Gator Dollars")
+        st.markdown(f"### � Jaguar Dollars")
         st.markdown(f"**{user['display_name']}**")
 
         if user["role"] == "teacher":
@@ -127,7 +127,7 @@ else:
         ]
     else:
         pages = [
-            st.Page("pages/student_dashboard.py", title="My Gator Dollars", icon="🐊"),
+            st.Page("pages/student_dashboard.py", title="My Jaguar Dollars", icon="🐆"),
             st.Page("pages/redeem_prizes.py", title="Prize Store", icon="🎁"),
             st.Page("pages/nominate_peer.py", title="Nominate", icon="⭐"),
             st.Page("pages/class_pool.py", title="Class Pool", icon="🏊"),
