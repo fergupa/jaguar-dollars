@@ -7,7 +7,7 @@ import models
 require_role("student")
 user = st.session_state.user
 
-st.title("🐊 My Gator Dollars")
+st.title("� My Jaguar Dollars")
 
 # ── Balance Display ────────────────────────────────────────────────────
 balance = models.get_balance(user["id"])

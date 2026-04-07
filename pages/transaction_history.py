@@ -1,4 +1,4 @@
-"""Transaction History - filterable log of all Gator Dollar activity."""
+"""Transaction History - filterable log of all Jaguar Dollar activity."""
 
 import streamlit as st
 import pandas as pd

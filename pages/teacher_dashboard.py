@@ -42,7 +42,7 @@ if all_students:
         amount = st.slider("Amount", min_value=1, max_value=25, value=5)
         note = st.text_input("Reason", placeholder="e.g., Great participation in class today!")
 
-        if st.form_submit_button("Award Gator Dollars", use_container_width=True):
+        if st.form_submit_button("Award Jaguar Dollars", use_container_width=True):
             if note.strip():
                 success = models.award_dollars(user["id"], student_options[selected_name], amount, note)
                 if success:

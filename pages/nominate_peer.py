@@ -1,4 +1,4 @@
-"""Nominate a Peer - students can nominate classmates for Gator Dollars."""
+"""Nominate a Peer - students can nominate classmates for Jaguar Dollars."""
 
 import streamlit as st
 from auth import require_role
@@ -9,7 +9,7 @@ user = st.session_state.user
 
 st.title("⭐ Nominate a Classmate")
 
-st.write("Know someone who's been awesome? Nominate them to earn Gator Dollars! "
+st.write("Know someone who's been awesome? Nominate them to earn Jaguar Dollars! "
          "Your teacher will review the nomination.")
 
 # ── Nomination Form ────────────────────────────────────────────────────
@@ -27,7 +27,7 @@ with st.form("nominate_form", clear_on_submit=True):
     reason = st.text_area("Why are you nominating them?",
                           placeholder="Tell us what they did! (at least 20 characters)",
                           max_chars=300)
-    suggested_amount = st.slider("How many Gator Dollars do you suggest?", 1, 10, 5)
+    suggested_amount = st.slider("How many Jaguar Dollars do you suggest?", 1, 10, 5)
 
     if st.form_submit_button("Submit Nomination", use_container_width=True):
         if len(reason.strip()) < 20:
