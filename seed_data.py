@@ -1,4 +1,4 @@
-"""Seed the database with demo data for Gator Dollars."""
+"""Seed the database with demo data for Jaguar Dollars."""
 
 import random
 from datetime import datetime, timedelta
@@ -12,7 +12,7 @@ def seed():
 
     # Check if already seeded
     if conn.execute("SELECT COUNT(*) FROM users").fetchone()[0] > 0:
-        print("Database already seeded. Delete gator_dollars.db to re-seed.")
+        print("Database already seeded. Delete jaguar_dollars.db to re-seed.")
         conn.close()
         return
 
@@ -21,6 +21,7 @@ def seed():
         ("Room 204 - Science", None),
         ("Room 112 - English", None),
         ("Room 301 - Math", None),
+        ("Room 405 - Social Studies", None),
     ]
     classroom_ids = []
     for name, _ in classrooms:
@@ -29,9 +30,10 @@ def seed():
 
     # ── Teachers ───────────────────────────────────────────────────────
     teachers = [
-        ("mrivera", "gator123", "Mrs. Rivera", classroom_ids[0]),
-        ("mthompson", "gator123", "Mr. Thompson", classroom_ids[1]),
-        ("mchen", "gator123", "Ms. Chen", classroom_ids[2]),
+        ("mrivera", "jaguar123", "Mrs. Rivera", classroom_ids[0]),
+        ("mthompson", "jaguar123", "Mr. Thompson", classroom_ids[1]),
+        ("mchen", "jaguar123", "Ms. Chen", classroom_ids[2]),
+        ("rcanada", "jaguar123", "Rob Canada", classroom_ids[3]),
     ]
     teacher_ids = []
     for username, password, name, cid in teachers:
@@ -206,9 +208,10 @@ def seed():
     print("\nDemo Credentials:")
     print("─" * 40)
     print("TEACHERS:")
-    print("  mrivera / gator123   (Mrs. Rivera - Science)")
-    print("  mthompson / gator123 (Mr. Thompson - English)")
-    print("  mchen / gator123     (Ms. Chen - Math)")
+    print("  mrivera / jaguar123   (Mrs. Rivera - Science)")
+    print("  mthompson / jaguar123 (Mr. Thompson - English)")
+    print("  mchen / jaguar123     (Ms. Chen - Math)")
+    print("  rcanada / jaguar123   (Rob Canada - Social Studies)")
     print("\nSTUDENTS:")
     print("  jsmith / student     (Jordan Smith)")
     print("  agarcia / student    (Alex Garcia)")
