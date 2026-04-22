@@ -53,7 +53,7 @@ if all_students:
     with st.form("quick_award", clear_on_submit=True):
         student_options = {s["display_name"]: s["id"] for s in all_students}
         selected_name = st.selectbox("Select Student", options=list(student_options.keys()))
-        amount = st.slider("Amount", min_value=1, max_value=25, value=5)
+        amount = st.number_input("Amount", min_value=1, value=5, step=1)
         note = st.text_input("Reason", placeholder="e.g., Great participation in class today!")
 
         if st.form_submit_button("Award Jaguar Dollars", use_container_width=True):

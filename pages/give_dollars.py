@@ -43,7 +43,7 @@ st.subheader("Award to Individual Student")
 with st.form("individual_award", clear_on_submit=True):
     student_options = {s["display_name"]: s["id"] for s in students}
     selected = st.selectbox("Student", options=list(student_options.keys()))
-    amount = st.slider("Amount", 1, 50, 5)
+    amount = st.number_input("Amount", min_value=1, value=5, step=1)
     note = st.text_input("Reason", placeholder="What did they do well?")
 
     if st.form_submit_button("Award", use_container_width=True):
@@ -65,7 +65,7 @@ with st.form("batch_award", clear_on_submit=True):
         "Select Students",
         options=[s["display_name"] for s in students],
     )
-    batch_amount = st.slider("Amount (each)", 1, 25, 5, key="batch_amount")
+    batch_amount = st.number_input("Amount (each)", min_value=1, value=5, step=1, key="batch_amount")
     batch_note = st.text_input("Reason", placeholder="What did they do well?", key="batch_note")
 
     if st.form_submit_button("Award to All Selected", use_container_width=True):
