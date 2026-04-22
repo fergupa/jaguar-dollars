@@ -72,6 +72,14 @@ def init_db():
             active      INTEGER DEFAULT 1
         );
 
+        CREATE TABLE IF NOT EXISTS bank_adjustments (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            teacher_id  INTEGER NOT NULL REFERENCES users(id),
+            amount      INTEGER NOT NULL,
+            reason      TEXT,
+            created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
         CREATE TABLE IF NOT EXISTS nominations (
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
             nominator_id    INTEGER NOT NULL REFERENCES users(id),

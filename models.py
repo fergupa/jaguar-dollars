@@ -92,6 +92,38 @@ def get_bank_info(teacher_id: int) -> dict | None:
     return dict(row) if row else None
 
 
+def refill_teacher_bank(teacher_id: int, amount: int, reason: str = "") -> bool:
+    if amount <= 0 or amount > 10000:
+        return False
+    conn = get_connection()
+    try:
+        conn.execute(
+            "UPDATE teacher_banks SET balance = balance + ? WHERE teacher_id = ?",
+            (amount, teacher_id),
+        )
+        conn.execute(
+            "INSERT INTO bank_adjustments (teacher_id, amount, reason) VALUES (?, ?, ?)",
+            (teacher_id, amount, reason),
+        )
+        conn.commit()
+        return True
+    except Exception:
+        conn.rollback()
+        return False
+    finally:
+        conn.close()
+
+
+def get_bank_adjustments(teacher_id: int, limit: int = 10) -> list[dict]:
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT * FROM bank_adjustments WHERE teacher_id = ? ORDER BY created_at DESC LIMIT ?",
+        (teacher_id, limit),
+    ).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
 # ── Student Balance ────────────────────────────────────────────────────
 
 def get_balance(student_id: int) -> int:

@@ -44,7 +44,7 @@ def seed():
         )
         tid = cursor.lastrowid
         teacher_ids.append(tid)
-        conn.execute("INSERT INTO teacher_banks (teacher_id, balance, total_issued) VALUES (?, 500, 0)", (tid,))
+        conn.execute("INSERT INTO teacher_banks (teacher_id, balance, total_issued) VALUES (?, 5000, 0)", (tid,))
 
     # Link classrooms to teachers
     for i, cid in enumerate(classroom_ids):

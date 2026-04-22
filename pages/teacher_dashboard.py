@@ -27,6 +27,20 @@ with col4:
 
 st.markdown("---")
 
+# ── Refill Bank ────────────────────────────────────────────────────────
+with st.expander("💵 Refill My Bank", expanded=False):
+    with st.form("refill_bank", clear_on_submit=True):
+        refill_amount = st.number_input("Amount to Add", min_value=1, max_value=10000, value=500, step=100)
+        refill_reason = st.text_input("Reason (optional)", placeholder="e.g., Monthly refill")
+        if st.form_submit_button("Refill Bank", use_container_width=True):
+            if models.refill_teacher_bank(user["id"], refill_amount, refill_reason):
+                st.success(f"Added ${refill_amount} to your bank!")
+                st.rerun()
+            else:
+                st.error("Refill failed. Amount must be between 1 and 10,000.")
+
+st.markdown("---")
+
 # ── Quick Award ────────────────────────────────────────────────────────
 st.subheader("Quick Award")
 
